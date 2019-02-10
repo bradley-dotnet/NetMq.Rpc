@@ -15,14 +15,16 @@ namespace NetMq.Rpc
         private readonly IWorkerManager workerManager;
         private readonly IPendingMessageQueues pendingMessageQueues;
         private readonly ISocket socket;
-        private readonly byte[] EmptyFrame = new byte[0];
+        private readonly IMdpBrokerMessageFactory messageFactory;
 
         public RpcMajordomo(IWorkerManager workerManager,
             IPendingMessageQueues pendingMessageQueues,
+            IMdpBrokerMessageFactory messageFactory,
             ISocket socket)
         {
             this.workerManager = workerManager;
             this.pendingMessageQueues = pendingMessageQueues;
+            this.messageFactory = messageFactory;
             this.socket = socket;
 
             socket.MessageReady += ParseMessage;
@@ -61,7 +63,7 @@ namespace NetMq.Rpc
             }
             else
             {
-                socket.SendMessage(GenerateWorkerRequest(worker, clientAddress, message));
+                socket.SendMessage(messageFactory.GenerateWorkerRequest(worker, clientAddress, message));
             }
         }
 
@@ -70,7 +72,7 @@ namespace NetMq.Rpc
             //All messages are heartbeats
             workerManager.WorkerHeartbeat(clientAddress);
 
-            var command = (MdpWorkerProtocol)frames.First().ConvertToInt32();
+            var command = (MdpWorkerProtocol)frames.First().Buffer[0];
             var remainingFrames = frames.Skip(1);
             switch (command)
             {
@@ -94,7 +96,7 @@ namespace NetMq.Rpc
         {
             foreach (var worker in workerManager.GetWorkerAddresses())
             {
-                socket.SendMessage(GenerateHeartbeat(worker));
+                socket.SendMessage(messageFactory.GenerateHeartbeat(worker));
             }
         }
 
@@ -105,7 +107,7 @@ namespace NetMq.Rpc
 
             foreach (var pendingMessage in pendingMessageQueues.Get(service))
             {
-                socket.SendMessage(GenerateWorkerRequest(address, pendingMessage.ClientAddress, pendingMessage.Body));
+                socket.SendMessage(messageFactory.GenerateWorkerRequest(address, pendingMessage.ClientAddress, pendingMessage.Body));
             }
             pendingMessageQueues.Remove(service);
         }
@@ -116,69 +118,20 @@ namespace NetMq.Rpc
             var reply = frames.Skip(2).Select(f => f.ToByteArray());
 
             var service = CheckAndGetServiceForAddress(address);
-
-            socket.SendMessage(GenerateClientReply(requestingClient, service, reply));
+            if (!string.IsNullOrEmpty(service))
+            {
+                socket.SendMessage(messageFactory.GenerateClientReply(requestingClient, service, reply));
+            }
         }
 
         private string CheckAndGetServiceForAddress(byte[] address)
         {
             var service = workerManager.GetWorkerService(address);
-            if (service == null)
+            if (string.IsNullOrEmpty(service))
             {
-                socket.SendMessage(GenerateDisconnect(address));
+                socket.SendMessage(messageFactory.GenerateDisconnect(address));
             }
             return service;
-        }
-
-        private IEnumerable<byte[]> GenerateHeartbeat(byte[] workerAddress)
-        {
-            return new List<byte[]>
-            {
-                workerAddress,
-                EmptyFrame,
-                ConvertStringToByets(MdpProtocolNames.Worker),
-                new byte[] { (byte)MdpWorkerProtocol.Heartbeat }
-            };
-        }
-
-        private IEnumerable<byte[]> GenerateWorkerRequest(byte[] workerAddress, byte[] clientAddress, IEnumerable<byte[]> message)
-        {
-            return new List<byte[]>
-            {
-                workerAddress,
-                EmptyFrame,
-                ConvertStringToByets(MdpProtocolNames.Worker),
-                new byte[] { (byte)MdpWorkerProtocol.Request },
-                clientAddress,
-                EmptyFrame,
-            }.Concat(message);
-        }
-
-        private IEnumerable<byte[]> GenerateClientReply(byte[] destination, string service, IEnumerable<byte[]> message)
-        {
-            return new List<byte[]>
-            {
-                destination,
-                EmptyFrame,
-                ConvertStringToByets(MdpProtocolNames.Client),
-                ConvertStringToByets(service),
-            }.Concat(message);
-        }
-
-        private IEnumerable<byte[]> GenerateDisconnect(byte[] workerAddress)
-        {
-            return new List<byte[]>
-            {
-                workerAddress,
-                EmptyFrame,
-                ConvertStringToByets(MdpProtocolNames.Worker),
-                new byte[] { (byte)MdpWorkerProtocol.Disconnect }
-            };
-        }
-
-        private byte[] ConvertStringToByets(string data)
-        {
-            return Encoding.ASCII.GetBytes(data);
         }
     }
 }

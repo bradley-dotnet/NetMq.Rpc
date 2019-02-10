@@ -6,5 +6,6 @@ namespace NetMq.Rpc.Models
 {
     internal class MdpWorker
     {
+        public string Address { get; set; }
     }
 }

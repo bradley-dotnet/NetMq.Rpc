@@ -7,7 +7,7 @@ namespace NetMq.Rpc.Contracts
     /// <summary>
     /// Provided as a DI token.
     /// </summary>
-    public interface IRpcMajordomo : IDisposable
+    public interface IRpcMajordomo
     {
     }
 }

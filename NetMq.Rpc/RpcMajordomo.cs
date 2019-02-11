@@ -7,7 +7,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-[assembly: InternalsVisibleToAttribute("NetMq.Rpc.Tests")]
+[assembly: InternalsVisibleTo("NetMq.Rpc.Tests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace NetMq.Rpc
 {
     public sealed class RpcMajordomo : IRpcMajordomo

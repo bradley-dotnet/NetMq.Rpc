@@ -8,6 +8,7 @@ namespace NetMq.Rpc.Tests.Mocks
     class FakeTimer : ITimer
     {
         private Action callback;
+        public bool Started { get; private set; }
 
         public FakeTimer(Action callback)
         {
@@ -16,10 +17,12 @@ namespace NetMq.Rpc.Tests.Mocks
 
         public void Start()
         {
+            Started = true;
         }
 
         public void Stop()
         {
+            Started = false;
         }
 
         public void Tick()

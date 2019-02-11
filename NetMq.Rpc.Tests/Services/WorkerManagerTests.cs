@@ -36,6 +36,12 @@ namespace NetMq.Rpc.Tests.Services
         }
 
         [Test]
+        public void OnStart_StartsDeadWorkerTimer()
+        {
+            Assert.IsTrue(timerFake.Started);
+        }
+
+        [Test]
         public void OnHeartbeat_WhenWorkerNotPresent_DoesNotThrow()
         {
             Assert.DoesNotThrow(() => systemUnderTest.WorkerHeartbeat(firstWorkerAddress));

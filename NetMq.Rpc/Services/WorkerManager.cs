@@ -21,6 +21,7 @@ namespace NetMq.Rpc.Services
         {
             this.dateTime = dateTime;
             heartbeatChecker = timerFactory.Create(TimeSpan.FromSeconds(30), CheckForDeadWorkers);
+            heartbeatChecker.Start();
         }
 
         public void AddWorker(string service, byte[] workerAddress)

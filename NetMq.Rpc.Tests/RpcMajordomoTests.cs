@@ -93,8 +93,8 @@ namespace NetMq.Rpc.Tests
         {
             pendingMessageQueues.Get(service).Returns(new List<PendingMessage>
             {
-                new PendingMessage { ClientAddress = clientAddress, Body = message },
-                new PendingMessage { ClientAddress = clientAddress, Body = message }
+                new PendingMessage(clientAddress, message, DateTime.Now),
+                new PendingMessage(clientAddress, message, DateTime.Now)
             });
             socket.GetNextMessage().Returns(GenerateMessageFromWorker(workerMessageFactory.GenerateReady(service)));
             socket.MessageReady += Raise.Event<Action>();

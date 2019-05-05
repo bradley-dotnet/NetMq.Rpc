@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.136
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMq.Rpc", "NetMq.Rpc\NetMq.Rpc.csproj", "{11CF4EB1-72AC-41C4-8C8C-161F51FF80C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetMq.Rpc", "NetMq.Rpc\NetMq.Rpc.csproj", "{11CF4EB1-72AC-41C4-8C8C-161F51FF80C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMq.Rpc.Tests", "NetMq.Rpc.Tests\NetMq.Rpc.Tests.csproj", "{3A44DC1C-D706-40C9-8187-A9C31B255E97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetMq.Rpc.Tests", "NetMq.Rpc.Tests\NetMq.Rpc.Tests.csproj", "{3A44DC1C-D706-40C9-8187-A9C31B255E97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMq.Rpc.Demo", "NetMq.Rpc.Demo\NetMq.Rpc.Demo.csproj", "{B55E7863-5F70-4A9E-BAC5-58BDE0FAB469}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{3A44DC1C-D706-40C9-8187-A9C31B255E97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A44DC1C-D706-40C9-8187-A9C31B255E97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A44DC1C-D706-40C9-8187-A9C31B255E97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B55E7863-5F70-4A9E-BAC5-58BDE0FAB469}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B55E7863-5F70-4A9E-BAC5-58BDE0FAB469}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B55E7863-5F70-4A9E-BAC5-58BDE0FAB469}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B55E7863-5F70-4A9E-BAC5-58BDE0FAB469}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

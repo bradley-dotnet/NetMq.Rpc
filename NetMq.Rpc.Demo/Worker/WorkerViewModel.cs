@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NetMq.Rpc.Demo.Broker.Worker
+namespace NetMq.Rpc.Demo.Worker
 {
     class WorkerViewModel
     {

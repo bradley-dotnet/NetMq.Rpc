@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NetMq.Rpc.Demo.Broker
+namespace NetMq.Rpc.Demo
 {
-    class BrokerViewModel
+    public class Constants
     {
+        public const string ZeroMqEndpoint = "inproc://mdp";
     }
 }

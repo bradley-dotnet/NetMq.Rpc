@@ -12,6 +12,6 @@ namespace NetMq.Rpc.Contracts
         NetMQMessage GetNextMessage();
         void SendMessage(IEnumerable<byte[]> messageFrames);
 
-        void AddTimer(int interval, Action callback);
+        void AddTimer(TimeSpan interval, Action callback);
     }
 }

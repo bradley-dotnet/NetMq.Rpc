@@ -3,10 +3,41 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:NetMq.Rpc.Demo.Broker"
+        xmlns:broker="clr-namespace:NetMq.Rpc.Demo.Broker"
+        xmlns:client="clr-namespace:NetMq.Rpc.Demo.Client"
+        xmlns:worker="clr-namespace:NetMq.Rpc.Demo.Worker"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock FontSize="18" Text="Client" Grid.Row="0" Grid.Column="0"/>
+        <client:ClientView Grid.Row="1" Grid.Column="0">
+            <client:ClientView.DataContext>
+                <client:ClientViewModel/>
+            </client:ClientView.DataContext>
+        </client:ClientView>
+
+        <TextBlock FontSize="18" Text="Broker" Grid.Row="0" Grid.Column="1"/>
+        <broker:BrokerView Grid.Row="1" Grid.Column="1">
+            <broker:BrokerView.DataContext>
+                <broker:BrokerViewModel/>
+            </broker:BrokerView.DataContext>
+        </broker:BrokerView>
+
+        <TextBlock FontSize="18" Text="Worker" Grid.Row="0" Grid.Column="2"/>
+        <worker:WorkerView>
+            <worker:WorkerView.DataContext>
+                <worker:WorkerViewModel/>
+            </worker:WorkerView.DataContext>
+        </worker:WorkerView>
     </Grid>
 </Window>

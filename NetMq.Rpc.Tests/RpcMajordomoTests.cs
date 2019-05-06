@@ -68,7 +68,7 @@ namespace NetMq.Rpc.Tests
         public void OnStarting_BrokerSetsUpHeartbeatForAllWorkers()
         {
             workerManager.GetWorkerAddresses().Returns(new List<byte[]> { workerAddress, workerAddress });
-            socket.Received().AddTimer(Arg.Any<int>(), Arg.Is<Action>(c => CheckTimerCallback(c)));
+            socket.Received().AddTimer(Arg.Any<TimeSpan>(), Arg.Is<Action>(c => CheckTimerCallback(c)));
         }
 
         private bool CheckTimerCallback(Action callback)

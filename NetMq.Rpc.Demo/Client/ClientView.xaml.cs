@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NetMq.Rpc.Demo.Broker.Client
+namespace NetMq.Rpc.Demo.Client
 {
     /// <summary>
     /// Interaction logic for ClientView.xaml

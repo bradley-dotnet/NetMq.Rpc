@@ -1,5 +1,7 @@
 ﻿using NetMq.Rpc.Contracts;
 using NetMq.Rpc.Models;
+using NetMq.Rpc.Services;
+using NetMq.Rpc.Sockets;
 using NetMQ;
 using System;
 using System.Collections.Generic;
@@ -18,6 +20,14 @@ namespace NetMq.Rpc
         private readonly ISocket socket;
         private readonly IMdpBrokerMessageFactory messageFactory;
 
+        public RpcMajordomo(string endpoint)
+            : this(new WorkerManager(new SystemDateTimeProvider(), new TimerFactory()), 
+                  new PendingMessageQueueManager(new SystemDateTimeProvider(), new TimerFactory()), 
+                  new MdpBrokerMessageFactory(), 
+                  new RouterSocket(endpoint))
+        {
+        }
+
         public RpcMajordomo(IWorkerManager workerManager,
             IPendingMessageQueues pendingMessageQueues,
             IMdpBrokerMessageFactory messageFactory,
@@ -29,7 +39,7 @@ namespace NetMq.Rpc
             this.socket = socket;
 
             socket.MessageReady += ParseMessage;
-            socket.AddTimer(1000, GenerateHeartbeats);
+            socket.AddTimer(TimeSpan.FromSeconds(1), GenerateHeartbeats);
         }
 
         private void ParseMessage()

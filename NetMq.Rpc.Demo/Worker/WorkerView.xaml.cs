@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NetMq.Rpc.Demo.Broker.Worker
+namespace NetMq.Rpc.Demo.Worker
 {
     /// <summary>
     /// Interaction logic for WorkerView.xaml

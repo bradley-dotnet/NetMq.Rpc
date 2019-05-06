@@ -6,6 +6,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Button Content="Start" Grid.Row="1" Width="100" Command="{Binding StartCommand}"
+                IsEnabled="{Binding BrokerIdle}"/>
     </Grid>
 </UserControl>

@@ -42,6 +42,11 @@ namespace NetMq.Rpc
             socket.AddTimer(TimeSpan.FromSeconds(1), GenerateHeartbeats);
         }
 
+        public void Dispose()
+        {
+            socket.Dispose();
+        }
+
         private void ParseMessage()
         {
             var message = socket.GetNextMessage();

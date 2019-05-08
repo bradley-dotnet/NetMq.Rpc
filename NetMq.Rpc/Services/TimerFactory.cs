@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NetMq.Rpc.Services
 {
-    class TimerFactory : ITimerFactory
+    internal class TimerFactory : ITimerFactory
     {
         public ITimer Create(TimeSpan interval, Action callback)
         {

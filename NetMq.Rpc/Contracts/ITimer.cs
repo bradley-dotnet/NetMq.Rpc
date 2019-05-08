@@ -8,5 +8,6 @@ namespace NetMq.Rpc.Contracts
     {
         void Start();
         void Stop();
+        void Reset();
     }
 }

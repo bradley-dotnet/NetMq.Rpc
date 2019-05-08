@@ -29,5 +29,10 @@ namespace NetMq.Rpc.Tests.Mocks
         {
             callback();
         }
+
+        public void Reset()
+        {
+            Started = true;
+        }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace NetMq.Rpc.Contracts
 {
-    public interface ITimerFactory
+    public interface IMethodCache
     {
-        ITimer Create(TimeSpan interval, Action callback);
+        MethodInfo GetMethod(string methodName);
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NetMq.Rpc.Contracts
 {
-    interface IMdpWorkerMessageFactory
+    public interface IMdpWorkerMessageFactory
     {
         IEnumerable<byte[]> GenerateReady(string service);
         IEnumerable<byte[]> GenerateReply(byte[] clientAddress, IEnumerable<byte[]> body);

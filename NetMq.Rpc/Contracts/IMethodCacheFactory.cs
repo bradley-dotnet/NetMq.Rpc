@@ -4,8 +4,8 @@ using System.Text;
 
 namespace NetMq.Rpc.Contracts
 {
-    public interface ITimerFactory
+    public interface IMethodCacheFactory
     {
-        ITimer Create(TimeSpan interval, Action callback);
+        IMethodCache ConstructCache(Type interfaceType);
     }
 }

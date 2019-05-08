@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NetMq.Rpc.Services
 {
-    public class Timer : ITimer
+    internal class Timer : ITimer
     {
         private System.Timers.Timer internalTimer;
 
@@ -24,6 +24,12 @@ namespace NetMq.Rpc.Services
         public void Stop()
         {
             internalTimer.Stop();
+        }
+
+        public void Reset()
+        {
+            internalTimer.Stop();
+            internalTimer.Start();
         }
     }
 }

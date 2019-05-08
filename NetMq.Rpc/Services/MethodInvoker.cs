@@ -31,22 +31,35 @@ namespace NetMq.Rpc.Services
 
         private Task<object> InvokeVoid(object target, MethodInfo method, object[] parameters)
         {
-            return Task.FromResult<object>(null);
+            return Task.Run(() =>
+            {
+                method.Invoke(target, parameters);
+                return (object)null;
+            });
         }
 
         private Task<object> InvokeSynchronous(object target, MethodInfo method, object[] parameters)
         {
-            return Task.FromResult<object>(null);
+            return Task.Run(() =>
+            {
+                return method.Invoke(target, parameters);
+            });
         }
 
-        private Task<object> InvokeVoidTask(object target, MethodInfo method, object[] parameters)
+        private async Task<object> InvokeVoidTask(object target, MethodInfo method, object[] parameters)
         {
-            return Task.FromResult<object>(null);
+            var task = (Task)method.Invoke(target, parameters);
+            await task;
+            return null;
         }
 
-        private Task<object> InvokeGenericTask(object target, MethodInfo method, object[] parameters)
+        private async Task<object> InvokeGenericTask(object target, MethodInfo method, object[] parameters)
         {
-            return Task.FromResult<object>(null);
+            var task = (Task)method.Invoke(target, parameters);
+            await task;
+
+            var resultProperty = task.GetType().GetProperty("Result");
+            return resultProperty.GetValue(task);
         }
     }
 }

@@ -55,8 +55,8 @@ namespace NetMq.Rpc
 
         public void Dispose()
         {
-            socket.SendMessage(messageFactory.GenerateDisconnect());
-            socket.Dispose();
+            socket?.SendMessage(messageFactory.GenerateDisconnect());
+            socket?.Dispose();
         }
 
         private void ParseMessage()

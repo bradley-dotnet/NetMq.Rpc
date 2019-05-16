@@ -1,4 +1,5 @@
-﻿using NetMq.Rpc.Contracts;
+﻿using Microsoft.Extensions.Logging;
+using NetMq.Rpc.Contracts;
 using NetMq.Rpc.Models;
 using NetMq.Rpc.Services;
 using NetMq.Rpc.Sockets;
@@ -19,13 +20,15 @@ namespace NetMq.Rpc
         private readonly ISocketFactory socketFactory;
         private readonly IMdpClientMessageFactory messageFactory;
         private readonly IRpcRequestManager rpcRequestManager;
+        private readonly ILogger logger;
 
         private ISocket socket;
 
-        public RpcClient(string endpoint)
+        public RpcClient(string endpoint, ILogger logger = null)
             : this(new SocketFactory<DealerSocket>(endpoint),
                   new MdpClientMessageFactory(true),
-                  new RpcRequestManager(new TimerFactory(), new SystemDateTimeProvider()))
+                  new RpcRequestManager(new TimerFactory(), new SystemDateTimeProvider()),
+                  logger)
         {
             if (!GetType().IsAssignableFrom(typeof(TContract)))
             {
@@ -35,11 +38,13 @@ namespace NetMq.Rpc
 
         public RpcClient(ISocketFactory socketFactory,
             IMdpClientMessageFactory messageFactory,
-            IRpcRequestManager rpcRequestManager)
+            IRpcRequestManager rpcRequestManager,
+            ILogger logger)
         {
             this.socketFactory = socketFactory;
             this.messageFactory = messageFactory;
             this.rpcRequestManager = rpcRequestManager;
+            this.logger = logger;
 
             Reconnect();
         }

@@ -1,4 +1,5 @@
-﻿using NetMq.Rpc.Contracts;
+﻿using Microsoft.Extensions.Logging;
+using NetMq.Rpc.Contracts;
 using NetMq.Rpc.Models;
 using NetMq.Rpc.Services;
 using NetMq.Rpc.Sockets;
@@ -19,24 +20,28 @@ namespace NetMq.Rpc
         private readonly IPendingMessageQueues pendingMessageQueues;
         private readonly ISocket socket;
         private readonly IMdpBrokerMessageFactory messageFactory;
+        private readonly ILogger logger;
 
-        public RpcMajordomo(string endpoint)
+        public RpcMajordomo(string endpoint, ILogger logger = null)
             : this(new WorkerManager(new SystemDateTimeProvider(), new TimerFactory()), 
                   new PendingMessageQueueManager(new SystemDateTimeProvider(), new TimerFactory()), 
                   new MdpBrokerMessageFactory(), 
-                  new RouterSocket(endpoint))
+                  new RouterSocket(endpoint),
+                  logger)
         {
         }
 
         public RpcMajordomo(IWorkerManager workerManager,
             IPendingMessageQueues pendingMessageQueues,
             IMdpBrokerMessageFactory messageFactory,
-            ISocket socket)
+            ISocket socket,
+            ILogger logger)
         {
             this.workerManager = workerManager;
             this.pendingMessageQueues = pendingMessageQueues;
             this.messageFactory = messageFactory;
             this.socket = socket;
+            this.logger = logger;
 
             socket.MessageReady += ParseMessage;
             socket.AddTimer(TimeSpan.FromSeconds(1), GenerateHeartbeats);

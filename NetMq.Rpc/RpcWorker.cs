@@ -1,4 +1,5 @@
-﻿using NetMq.Rpc.Contracts;
+﻿using Microsoft.Extensions.Logging;
+using NetMq.Rpc.Contracts;
 using NetMq.Rpc.Models;
 using NetMq.Rpc.Services;
 using NetMq.Rpc.Sockets;
@@ -18,16 +19,18 @@ namespace NetMq.Rpc
         private readonly ISocketFactory socketFactory;
         private readonly IMdpWorkerMessageFactory messageFactory;
         private readonly IMethodInvoker methodInvoker;
+        private readonly ILogger logger;
 
         private ITimer brokerLifetime;
         private ISocket socket;
 
-        public RpcWorker(string endpoint):
+        public RpcWorker(string endpoint, ILogger logger = null) :
             this(new MethodCacheFactory(),
                 new SocketFactory<DealerSocket>(endpoint),
                 new MdpWorkerMessageFactory(),
                 new TimerFactory(),
-                new MethodInvoker())
+                new MethodInvoker(),
+                logger)
         {
         }
 
@@ -35,7 +38,8 @@ namespace NetMq.Rpc
             ISocketFactory socketFactory,
             IMdpWorkerMessageFactory messageFactory,
             ITimerFactory timerFactory,
-            IMethodInvoker methodInvoker)
+            IMethodInvoker methodInvoker,
+            ILogger logger)
         {
             if (!GetType().IsAssignableFrom(typeof(TContract)))
             {
@@ -46,6 +50,7 @@ namespace NetMq.Rpc
             methodCache = methodCacheFactory.ConstructCache(typeof(TContract));
             this.messageFactory = messageFactory;
             this.methodInvoker = methodInvoker;
+            this.logger = logger;
 
             brokerLifetime = timerFactory.Create(TimeSpan.FromSeconds(5), Reconnect);
             brokerLifetime.Start();

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NetMq.Rpc.Contracts
 {
-    interface ITimer
+    public interface ITimer
     {
         void Start();
         void Stop();

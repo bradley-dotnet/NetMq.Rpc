@@ -37,7 +37,7 @@ namespace NetMq.Rpc.Tests
 
             workerMessageFactory = new MdpWorkerMessageFactory();
             clientMessageFactory = new MdpClientMessageFactory(true);
-            systemUnderTest = new RpcMajordomo(workerManager, pendingMessageQueues, messageFactory, socket);
+            systemUnderTest = new RpcMajordomo(workerManager, pendingMessageQueues, messageFactory, socket, null);
         }
 
         [Test]

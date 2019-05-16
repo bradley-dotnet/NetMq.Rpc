@@ -41,7 +41,7 @@ namespace NetMq.Rpc
             IMethodInvoker methodInvoker,
             ILogger logger)
         {
-            if (!GetType().IsAssignableFrom(typeof(TContract)))
+            if (!typeof(TContract).IsAssignableFrom(GetType()))
             {
                 throw new InvalidOperationException("Worker must implement contract interface");
             }

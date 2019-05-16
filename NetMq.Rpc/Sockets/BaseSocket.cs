@@ -16,7 +16,7 @@ namespace NetMq.Rpc.Sockets
         public BaseSocket(NetMQSocket concreteSocket)
         {
             socket = concreteSocket;
-            socket.ReceiveReady += (s, e) => GetNextMessage();
+            socket.ReceiveReady += (s, e) => MessageReady?.Invoke();
 
             poller = new NetMQPoller { socket };
             poller.RunAsync();

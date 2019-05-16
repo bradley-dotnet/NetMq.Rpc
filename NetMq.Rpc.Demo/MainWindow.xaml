@@ -34,7 +34,7 @@
         </broker:BrokerView>
 
         <TextBlock FontSize="18" Text="Worker" Grid.Row="0" Grid.Column="2"/>
-        <worker:WorkerView>
+        <worker:WorkerView Grid.Row="1" Grid.Column="2">
             <worker:WorkerView.DataContext>
                 <worker:WorkerViewModel/>
             </worker:WorkerView.DataContext>

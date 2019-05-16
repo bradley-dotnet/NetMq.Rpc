@@ -5,6 +5,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace NetMq.Rpc.Demo.Utilities
 {
@@ -30,7 +32,10 @@ namespace NetMq.Rpc.Demo.Utilities
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
             var message = formatter(state, exception);
-            log.Add($"{logLevel.ToString()} - {message}");
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                log.Add($"{logLevel.ToString()} - {message}");
+            }));
         }
     }
 }

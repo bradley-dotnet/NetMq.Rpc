@@ -30,7 +30,7 @@ namespace NetMq.Rpc
                   new RpcRequestManager(new TimerFactory(), new SystemDateTimeProvider()),
                   logger)
         {
-            if (!GetType().IsAssignableFrom(typeof(TContract)))
+            if (!typeof(TContract).IsAssignableFrom(GetType()))
             {
                 throw new InvalidOperationException("Client must implement contract interface");
             }

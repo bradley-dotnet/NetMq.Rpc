@@ -6,6 +6,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ListView Grid.Row="0" ItemsSource="{Binding Log}"/>
+        <Button Content="Add 2+2" Grid.Row="1" Width="100" Command="{Binding RunCommand}"/>
     </Grid>
 </UserControl>

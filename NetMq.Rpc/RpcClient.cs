@@ -138,8 +138,8 @@ namespace NetMq.Rpc
                 Parameters = parameters
             };
             var serializedMessage = JsonConvert.SerializeObject(message);
-            var replyBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(serializedMessage));
-            socket.SendMessage(messageFactory.GenerateRequest(typeof(TContract).Name, new byte[][] { replyBytes }));
+            var requestBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(serializedMessage));
+            socket.SendMessage(messageFactory.GenerateRequest(typeof(TContract).Name, new byte[][] { requestBytes }));
             return message.SynchronizationId;
         }
 

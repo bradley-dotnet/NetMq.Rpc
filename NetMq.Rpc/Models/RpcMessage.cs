@@ -6,8 +6,8 @@ namespace NetMq.Rpc.Models
 {
     internal class RpcMessage
     {
-        internal string MethodName { get; set; }
-        internal object[] Parameters { get; set; }
-        internal Guid SynchronizationId { get; set; }
+        public string MethodName { get; set; }
+        public object[] Parameters { get; set; }
+        public Guid SynchronizationId { get; set; }
     }
 }

@@ -99,7 +99,8 @@ namespace NetMq.Rpc
             var clientAddress = frames.ElementAt(0);
             var body = frames.ElementAt(2);
 
-            var message = JsonConvert.DeserializeObject<RpcMessage>(body.ConvertToString());
+            var json = body.ConvertToString();
+            var message = JsonConvert.DeserializeObject<RpcMessage>(json);
             logger?.LogDebug("Request received for method {methodName}", message.MethodName);
             var returnValue = await methodInvoker.GetMethodResult(this, methodCache.GetMethod(message.MethodName), message.Parameters);
 

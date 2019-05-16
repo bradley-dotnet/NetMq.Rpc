@@ -4,9 +4,9 @@ using System.Text;
 
 namespace NetMq.Rpc.Models
 {
-    public class RpcResponse
+    internal class RpcResponse
     {
-        internal object ReturnValue { get; set; }
-        internal Guid SynchronizationId { get; set; }
+        public object ReturnValue { get; set; }
+        public Guid SynchronizationId { get; set; }
     }
 }

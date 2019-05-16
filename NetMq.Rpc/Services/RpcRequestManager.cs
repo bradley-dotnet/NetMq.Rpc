@@ -49,8 +49,8 @@ namespace NetMq.Rpc.Services
 
         private void CheckDeadRequests()
         {
-            var oldestRequest = pendingRequests.Values.OrderBy(r => r.RequestTime).First();
-            if (oldestRequest.RequestTime.AddSeconds(30) < dateTime.Now)
+            var oldestRequest = pendingRequests.Values.OrderBy(r => r.RequestTime).FirstOrDefault();
+            if (oldestRequest != null && oldestRequest.RequestTime.AddSeconds(30) < dateTime.Now)
             {
                 foreach (var request in pendingRequests.Values)
                 {

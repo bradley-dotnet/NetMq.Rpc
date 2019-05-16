@@ -102,10 +102,14 @@ namespace NetMq.Rpc
             var json = body.ConvertToString();
             var message = JsonConvert.DeserializeObject<RpcMessage>(json);
             logger?.LogDebug("Request received for method {methodName}", message.MethodName);
-            var returnValue = await methodInvoker.GetMethodResult(this, methodCache.GetMethod(message.MethodName), message.Parameters);
+
+            var method = methodCache.GetMethod(message.MethodName);
+            var parameters = methodCache.SanitizeParameters(message.MethodName, message.Parameters);
+            var returnValue = await methodInvoker.GetMethodResult(this, method, parameters);
 
             var reply = new RpcResponse { ReturnValue = returnValue, SynchronizationId = message.SynchronizationId };
-            var replyBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(reply));
+            var replyJson = JsonConvert.SerializeObject(reply);
+            var replyBytes = Encoding.UTF8.GetBytes(replyJson);
             socket.SendMessage(messageFactory.GenerateReply(clientAddress.Buffer, new byte[][] { replyBytes }));
         }
 

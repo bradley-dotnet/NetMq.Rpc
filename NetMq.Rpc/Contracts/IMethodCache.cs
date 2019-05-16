@@ -8,5 +8,6 @@ namespace NetMq.Rpc.Contracts
     public interface IMethodCache
     {
         MethodInfo GetMethod(string methodName);
+        object[] SanitizeParameters(string methodName, object[] sourceParameters);
     }
 }

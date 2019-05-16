@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,16 @@ namespace NetMq.Rpc.Models
 
         public void SetResult(object result)
         {
-            taskSource.TrySetResult((T)result);
+            T converted;
+            if (result is JObject jsonObject)
+            {
+                converted = (T)jsonObject.ToObject(typeof(T));
+            }
+            else
+            {
+                converted = (T)result;
+            }
+            taskSource.TrySetResult(converted);
         }
 
         public void Cancel()

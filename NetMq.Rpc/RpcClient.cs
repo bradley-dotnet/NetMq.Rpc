@@ -102,15 +102,7 @@ namespace NetMq.Rpc
             var protocol = message.ElementAt(1).ConvertToString();
             if (protocol == MdpProtocolNames.Client)
             {
-                var command = (MdpWorkerProtocol)message.ElementAt(2).Buffer[0]; ;
-                switch (command)
-                {
-                    case MdpWorkerProtocol.Reply:
-                        HandleResponse(message.Skip(3));
-                        break;
-                    default:
-                        break;
-                }
+                HandleResponse(message.Skip(3));
             }
         }
 
@@ -138,7 +130,7 @@ namespace NetMq.Rpc
                 Parameters = parameters
             };
             var serializedMessage = JsonConvert.SerializeObject(message);
-            var requestBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(serializedMessage));
+            var requestBytes = Encoding.UTF8.GetBytes(serializedMessage);
             socket.SendMessage(messageFactory.GenerateRequest(typeof(TContract).Name, new byte[][] { requestBytes }));
             return message.SynchronizationId;
         }

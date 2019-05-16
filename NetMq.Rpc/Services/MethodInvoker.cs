@@ -19,7 +19,7 @@ namespace NetMq.Rpc.Services
             {
                 return InvokeVoidTask(target, method, parameters);
             }
-            else if (method.ReturnType == typeof(Task<>))
+            else if (method.ReturnType.IsGenericType && method.ReturnType.GetGenericTypeDefinition() == typeof(Task<>))
             {
                 return InvokeGenericTask(target, method, parameters);
             }

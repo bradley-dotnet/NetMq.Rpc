@@ -10,6 +10,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <ListView Grid.Row="0" ItemsSource="{Binding Log}"/>
         <Button Content="Start" Grid.Row="1" Width="100" Command="{Binding StartCommand}"
                 IsEnabled="{Binding BrokerIdle}"/>
     </Grid>

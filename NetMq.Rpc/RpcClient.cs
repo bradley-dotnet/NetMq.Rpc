@@ -130,6 +130,7 @@ namespace NetMq.Rpc
 
         private Guid SendRequestMessage(string methodName, object[] parameters)
         {
+            logger?.LogDebug("Sending request for method {methodName}", methodName);
             var message = new RpcMessage
             {
                 SynchronizationId = Guid.NewGuid(),
@@ -144,6 +145,7 @@ namespace NetMq.Rpc
 
         private void HandleResponse(IEnumerable<NetMQFrame> frames)
         {
+            logger?.LogDebug("Received request response");
             var body = frames.ElementAt(0);
 
             var message = JsonConvert.DeserializeObject<RpcResponse>(body.ConvertToString());

@@ -43,6 +43,7 @@ namespace NetMq.Rpc
             this.socket = socket;
             this.logger = logger;
 
+            logger?.LogDebug("Broker Started");
             socket.MessageReady += ParseMessage;
             socket.AddTimer(TimeSpan.FromSeconds(1), GenerateHeartbeats);
         }
@@ -80,10 +81,12 @@ namespace NetMq.Rpc
 
             if (worker == null)
             {
+                logger?.LogDebug("Client request for service {service} received but no worker available, queuing", service);
                 pendingMessageQueues.Add(service, clientAddress, message);
             }
             else
             {
+                logger?.LogDebug("Client request for service {service} received, sending to worker", service);
                 socket.SendMessage(messageFactory.GenerateWorkerRequest(worker, clientAddress, message));
             }
         }
@@ -108,6 +111,7 @@ namespace NetMq.Rpc
                     CheckAndGetServiceForAddress(clientAddress);
                     break;
                 case MdpWorkerProtocol.Disconnect:
+                    logger?.LogDebug("Worker disconnected");
                     workerManager.DisconnectWorker(clientAddress);
                     break;
             }
@@ -125,6 +129,7 @@ namespace NetMq.Rpc
         {
             var service = frames.First().ConvertToString();
             workerManager.AddWorker(service, address);
+            logger?.LogDebug("Worker for service {service} connected", service);
 
             foreach (var pendingMessage in pendingMessageQueues.Get(service))
             {
@@ -141,6 +146,7 @@ namespace NetMq.Rpc
             var service = CheckAndGetServiceForAddress(address);
             if (!string.IsNullOrEmpty(service))
             {
+                logger?.LogDebug("Reply from worker for service {service} received, forwarding to client", service);
                 socket.SendMessage(messageFactory.GenerateClientReply(requestingClient, service, reply));
             }
         }

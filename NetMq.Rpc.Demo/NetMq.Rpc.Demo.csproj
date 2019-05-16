@@ -74,6 +74,7 @@
     <Compile Include="Client\ClientViewModel.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Utilities\DelegateCommand.cs" />
+    <Compile Include="Utilities\UILogger.cs" />
     <Compile Include="Worker\WorkerView.xaml.cs">
       <DependentUpon>WorkerView.xaml</DependentUpon>
     </Compile>

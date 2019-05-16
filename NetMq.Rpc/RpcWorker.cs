@@ -52,6 +52,7 @@ namespace NetMq.Rpc
             this.methodInvoker = methodInvoker;
             this.logger = logger;
 
+            logger?.LogDebug("Worker started for service {contract}", typeof(TContract).Name);
             brokerLifetime = timerFactory.Create(TimeSpan.FromSeconds(5), Reconnect);
             brokerLifetime.Start();
 
@@ -99,6 +100,7 @@ namespace NetMq.Rpc
             var body = frames.ElementAt(2);
 
             var message = JsonConvert.DeserializeObject<RpcMessage>(body.ConvertToString());
+            logger?.LogDebug("Request received for method {methodName}", message.MethodName);
             var returnValue = await methodInvoker.GetMethodResult(this, methodCache.GetMethod(message.MethodName), message.Parameters);
 
             var reply = new RpcResponse { ReturnValue = returnValue, SynchronizationId = message.SynchronizationId };
@@ -113,6 +115,7 @@ namespace NetMq.Rpc
                 socket.Dispose();
             }
 
+            logger.LogDebug("Connecting to broker");
             socket = socketFactory.Create();
 
             socket.MessageReady += ParseMessage;

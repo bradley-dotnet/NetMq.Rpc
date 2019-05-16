@@ -86,14 +86,21 @@ namespace NetMq.Rpc
 
         private void Reconnect()
         {
-            if (socket != null)
+            try
             {
-                socket.Dispose();
+                if (socket != null)
+                {
+                    socket.Dispose();
+                }
+
+                socket = socketFactory.Create();
+
+                socket.MessageReady += ParseMessage;
             }
-
-            socket = socketFactory.Create();
-
-            socket.MessageReady += ParseMessage;
+            catch (Exception)
+            {
+                logger?.LogError("Unable to connect to broker");
+            }
         }
 
         private void ParseMessage()

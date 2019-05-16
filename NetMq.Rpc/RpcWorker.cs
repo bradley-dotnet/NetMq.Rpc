@@ -115,17 +115,24 @@ namespace NetMq.Rpc
 
         private void Reconnect()
         {
-            if (socket != null)
+            try
             {
-                socket.Dispose();
+                if (socket != null)
+                {
+                    socket.Dispose();
+                }
+
+                logger?.LogDebug("Connecting to broker");
+                socket = socketFactory.Create();
+
+                socket.MessageReady += ParseMessage;
+                socket.AddTimer(TimeSpan.FromSeconds(1), GenerateHeartbeats);
+                SendReady();
             }
-
-            logger.LogDebug("Connecting to broker");
-            socket = socketFactory.Create();
-
-            socket.MessageReady += ParseMessage;
-            socket.AddTimer(TimeSpan.FromSeconds(1), GenerateHeartbeats);
-            SendReady();
+            catch (Exception)
+            {
+                logger?.LogError("Could not connect to broker");
+            }
         }
 
         private void GenerateHeartbeats()

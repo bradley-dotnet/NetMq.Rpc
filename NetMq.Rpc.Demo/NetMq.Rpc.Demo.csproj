@@ -72,9 +72,12 @@
       <DependentUpon>ClientView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Client\ClientViewModel.cs" />
+    <Compile Include="Client\DemoClient.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="IDemoContract.cs" />
     <Compile Include="Utilities\DelegateCommand.cs" />
     <Compile Include="Utilities\UILogger.cs" />
+    <Compile Include="Worker\DemoWorker.cs" />
     <Compile Include="Worker\WorkerView.xaml.cs">
       <DependentUpon>WorkerView.xaml</DependentUpon>
     </Compile>

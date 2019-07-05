@@ -24,5 +24,13 @@ namespace NetMq.Rpc.Demo.Client
             logger.LogInformation($"Got an answer of {sum.Value}");
             return sum;
         }
+
+        public async Task<Box<int>> AddObjectAsync(Addends arguments)
+        {
+            logger.LogInformation("Starting object add");
+            var sum = await GetReturnValueAsync<Box<int>>(MakeParams(arguments));
+            logger.LogInformation($"Got an answer of {sum.Value}");
+            return sum;
+        }
     }
 }

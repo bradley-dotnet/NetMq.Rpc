@@ -22,9 +22,9 @@ namespace NetMq.Rpc.Models
         public void SetResult(object result)
         {
             T converted;
-            if (result is JObject jsonObject)
+            if (result is JToken json)
             {
-                converted = (T)jsonObject.ToObject(typeof(T));
+                converted = (T)json.ToObject(typeof(T));
             }
             else
             {

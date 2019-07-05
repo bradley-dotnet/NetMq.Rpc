@@ -32,7 +32,7 @@ namespace NetMq.Rpc.Demo.Client
             {
                 rpcClient = new DemoClient(Constants.ZeroMqEndpoint, new UILogger(log));
             }
-            await rpcClient.AddAsync(new List<int> { 2, 2 });
+            await rpcClient.AddObjectAsync(new Addends { FirstArg = 2, SecondArg =2 });
         }
 
         public ICommand RunCommand { get; private set; }

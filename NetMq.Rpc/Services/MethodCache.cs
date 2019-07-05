@@ -37,9 +37,9 @@ namespace NetMq.Rpc.Services
 
         private object SanitizeParameter(object source, ParameterInfo target)
         {
-            if (source is JArray jsonArray)
+            if (source is JToken json)
             {
-                return jsonArray.ToObject(target.ParameterType);
+                return json.ToObject(target.ParameterType);
             }
             return source;
         }

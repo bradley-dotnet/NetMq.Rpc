@@ -24,5 +24,14 @@ namespace NetMq.Rpc.Demo.Worker
             await Task.Delay(1000);
             return new Box<int> { Value = sum };
         }
+
+        public async Task<Box<int>> AddObjectAsync(Addends arguments)
+        {
+            logger.LogInformation("Adding object args");
+
+            var sum = arguments.FirstArg + arguments.SecondArg;
+            await Task.Delay(1000);
+            return new Box<int> { Value = sum };
+        }
     }
 }

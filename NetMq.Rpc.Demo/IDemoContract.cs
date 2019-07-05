@@ -14,5 +14,7 @@ namespace NetMq.Rpc.Demo
     public interface IDemoContract
     {
         Task<Box<int>> AddAsync(List<int> addends);
+
+        Task<Box<int>> AddObjectAsync(Addends arguments);
     }
 }

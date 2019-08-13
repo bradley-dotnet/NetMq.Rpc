@@ -12,13 +12,15 @@ namespace NetMq.Rpc.Sockets
         public event Action MessageReady;
         private readonly NetMQSocket socket;
         private NetMQPoller poller;
+        private NetMQQueue<IEnumerable<byte[]>> pendingSends = new NetMQQueue<IEnumerable<byte[]>>();
 
         public BaseSocket(NetMQSocket concreteSocket)
         {
             socket = concreteSocket;
             socket.ReceiveReady += (s, e) => MessageReady?.Invoke();
+            pendingSends.ReceiveReady += (s, e) => socket.SendMultipartBytes(pendingSends.Dequeue().ToArray());;
 
-            poller = new NetMQPoller { socket };
+            poller = new NetMQPoller { socket, pendingSends };
             poller.RunAsync();
         }
 
@@ -45,7 +47,7 @@ namespace NetMq.Rpc.Sockets
 
         public void SendMessage(IEnumerable<byte[]> messageFrames)
         {
-            socket.SendMultipartBytes(messageFrames.ToArray());
+            pendingSends.Enqueue(messageFrames);
         }
     }
 }
